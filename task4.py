@@ -10,8 +10,7 @@ from bs4 import BeautifulSoup
 
 def scrape_movie_details(link):
     dict = {}
-    # movies_details=[]
-    # for i in url[:10]:
+    movies_details=[]
     page = requests.get(link)
     soup = BeautifulSoup(page.text, "html.parser")
     name = soup.find("div", class_="TitleBlock__TitleContainer-sc-1nlhx7j-1 jxsVNt").h1.text
@@ -30,7 +29,6 @@ def scrape_movie_details(link):
 
     poster = soup.find("img", class_="ipc-image")["src"]
     Bio = soup.find("span", class_="GenresAndPlot__TextContainerBreakpointXS_TO_M-sc-cum89p-0 kHlJyu").text
-    # print(Bio, "Bio hai")
 
     rantime = soup.find("li", attrs={"data-testid": "title-techspec_runtime"})
     r = rantime.find("div", class_="ipc-metadata-list-item__content-container").text
@@ -39,7 +37,6 @@ def scrape_movie_details(link):
         minuts=int(run[0])*60+int(run[2])
     else:
         minuts=int(minuts[0])*60
-#     print(minuts)
    
     list1=[]
     ganre=soup.find("li",attrs={"data-testid":"storyline-genres"})
@@ -54,14 +51,7 @@ def scrape_movie_details(link):
     dict["bio"]=Bio
     dict["runtime"]=minutes
     dict["genre"]=list1
-
-    # movies_details.append(dict)
-    # file = open("movies.json", "r")
-    # old_data = json.load(file)
-    # old_data.append(dict)
-    # file = open("movies.json", "w")
-    # file.write(json.dumps(old_data, indent=6))
-    # pprint(movies_details)
+    movies_details.append(dict)
+    
     return dict
-
-# pprint(scrape_movie_details("https://www.imdb.com/title/tt8176054/"))
+scrape_movie_details("https://www.imdb.com/title/tt8176054/")
