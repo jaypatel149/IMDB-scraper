@@ -33,18 +33,13 @@ def scrape_movie_details(link):
     # print(Bio, "Bio hai")
 
     rantime = soup.find("li", attrs={"data-testid": "title-techspec_runtime"})
-    ran1 = rantime.find("div", class_="ipc-metadata-list-item__content-container").text
-    ran = ran1.replace(" hours", "").replace(" minutes", "").replace(" hour", "").replace(" minute", "").replace(" h", "").replace(" m", "")
-    sp = ran.split(' ')
-    t_minutes = 0
-    if len(sp) == 2:
-        t_minutes += int(sp[0])*60
-        t_minutes += int(sp[1]) 
-    elif len(sp) == 1:
-        if "h" in ran1:
-            t_minutes += int(sp[0])*60 
-        else:  
-            t_minutes += int(sp[0])
+    r = rantime.find("div", class_="ipc-metadata-list-item__content-container").text
+    run=r.split(" ")
+    if len(run)==4:
+        minuts=int(run[0])*60+int(run[2])
+    else:
+        minuts=int(minuts[0])*60
+#     print(minuts)
    
     list1=[]
     ganre=soup.find("li",attrs={"data-testid":"storyline-genres"})
@@ -57,7 +52,7 @@ def scrape_movie_details(link):
     dict["language"]=lol
     dict["poster_image_url"]=poster
     dict["bio"]=Bio
-    dict["runtime"]=t_minutes
+    dict["runtime"]=minutes
     dict["genre"]=list1
 
     # movies_details.append(dict)
